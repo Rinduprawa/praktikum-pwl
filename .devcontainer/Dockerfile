@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     sqlite3 \
     libsqlite3-dev \
+    libonig-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 20.x
