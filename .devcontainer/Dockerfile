@@ -19,6 +19,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && npm install -g npm \
     && rm -rf /var/lib/apt/lists/*
+    
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl git unzip sqlite3 libsqlite3-dev libonig-dev libxml2-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_sqlite bcmath ctype fileinfo mbstring xml
