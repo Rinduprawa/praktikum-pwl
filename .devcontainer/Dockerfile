@@ -1,7 +1,10 @@
-# See https://aka.ms/vscode-remote/devcontainer.json for format details
 FROM mcr.microsoft.com/devcontainers/php:0-8.2
 
-# Install system dependencies and PHP extensions required by Laravel
+# Fix Yarn GPG key issue
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarn-archive-keyring.gpg > /dev/null \
+    && echo "deb [signed-by=/usr/share/keyrings/yarn-archive-keyring.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
@@ -10,17 +13,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js 20.x for Laravel Vite and frontend tooling
+# Install Node.js 20.x
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && npm install -g npm \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions for Laravel
-# RUN docker-php-ext-install pdo pdo_sqlite bcmath ctype fileinfo json mbstring openssl tokenizer xml zip
+# Install PHP extensions
+RUN docker-php-ext-install pdo pdo_sqlite bcmath ctype fileinfo mbstring xml
 
-# Ensure the vscode user owns the workspace folder
 RUN chown -R vscode:vscode /workspace || true
 
-# Switch back to the vscode user
 USER vscode
