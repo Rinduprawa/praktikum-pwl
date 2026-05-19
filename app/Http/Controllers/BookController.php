@@ -19,26 +19,14 @@ class BookController extends Controller
         //     'penulis' => 'required',
         //     'tahun' => 'required|integer',
         // ]);
-        $data = $request->except('cover');
-
-        if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')->store('covers', 'public');
-        }
-
-        Book::create($data);
+        Book::create($request->all());
         return redirect('/books');
     }
 
     public function update(Request $request, $id)
     {
         $book = Book::find($id);
-        $data = $request->except('cover');
-
-        if ($request->hasFile('cover')) {
-            $data['cover'] = $request->file('cover')->store('covers', 'public');
-        }
-
-        $book->update($data);
+        $book->update($request->all());
         return redirect('/books');
     }
 

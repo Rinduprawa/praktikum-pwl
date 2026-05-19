@@ -6,7 +6,6 @@
 </head>
 
 <body>
-
     <h1>Daftar Buku</h1>
 
     <table border="1">
@@ -15,7 +14,6 @@
             <th>Judul</th>
             <th>Penulis</th>
             <th>Tahun</th>
-            <th>Cover</th>
             <th>Aksi</th>
         </tr>
 
@@ -25,10 +23,6 @@
                 <td>{{ $book->judul }}</td>
                 <td>{{ $book->penulis }}</td>
                 <td>{{ $book->tahun }}</td>
-                <td>
-                    <img src="{{ $book->cover ? asset('storage/' . $book->cover) : 'storage/covers/dummy.jpg' }}"
-                        width="50">
-                </td>
                 <td>
                     <a href="/books?edit={{ $book->id }}">Edit</a>
 
@@ -47,14 +41,13 @@
 
     @php $editBook = request('edit') ? $books->find(request('edit')) : null @endphp
 
-    <form action="{{ $editBook ? '/books/' . $editBook->id : '/books' }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ $editBook ? '/books/' . $editBook->id : '/books' }}" method="POST">
         @csrf
         @if($editBook) @method('PUT') @endif
 
         <input type="text" name="judul" placeholder="Judul" value="{{ $editBook->judul ?? '' }}" required> <br>
         <input type="text" name="penulis" placeholder="Penulis" value="{{ $editBook->penulis ?? '' }}" required> <br>
         <input type="number" name="tahun" placeholder="Tahun" value="{{ $editBook->tahun ?? '' }}" required> <br>
-        <input type="file" name="cover" accept="image/*"> <br>
         <button type="submit">{{ $editBook ? 'Update' : 'Simpan' }}</button>
     </form>
 
