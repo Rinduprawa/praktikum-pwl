@@ -1,0 +1,22 @@
+{
+  "name": "Laravel Codespace",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "ms-azuretools.vscode-docker",
+        "amiralizadeh9480.laravel-extra-intellisense"
+      ]
+    }
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "postCreateCommand": "cp .env.example .env && composer install && npm install && php artisan key:generate --ansi && mkdir -p database && touch database/database.sqlite && php artisan migrate:fresh --seed --force --ansi",
+  "forwardPorts": [8000, 5173],
+  "remoteUser": "vscode"
+}
